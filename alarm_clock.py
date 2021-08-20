@@ -1,11 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Aug 19 11:11:30 2021
-
-@author: Jordan Kennedy (Twitter: @imjorman)
-"""
-
-import sys, sys
+import sys, random, webbrowser
 from time import localtime, strftime
 
 inputs = [userInput for userInput in sys.argv] #storing command line arguments into a list
@@ -40,7 +33,7 @@ input_minute = inputs[2]
 if int(input_minute) < 10:
     input_minute = "0" + input_minute
 input_am_pm = inputs[3].upper() #puts PM or AM as upper since that's what the time module does
-inputTime = f"{input_hour}:{input_minute} PM"
+inputTime = f"{input_hour}:{input_minute} {input_am_pm}"
     
 print("The current time is: " + ourTime)
 print("The alarm is set for " + inputTime)
@@ -52,4 +45,10 @@ while True:
         break
 
 #Now that we've broken from the loop, we'll do the thing we want when the timer goes off
-print("The time has arrived!")
+with open("video_list.txt") as f: #reads each line of text file into a list
+    lines = f.readlines()
+
+random = random.randint(0, len(lines)-1) #generates random number to pick a video
+
+webbrowser.register('chrome', None, webbrowser.BackgroundBrowser("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")) #registers chrome as the browser of choice
+webbrowser.get('chrome').open(lines[random]) #uses the random number to open a random url from the list in the browser
